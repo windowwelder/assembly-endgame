@@ -7,8 +7,9 @@ import Confetti from "react-confetti"
 
 
 export default function AssemblyEndgame() {
-    const [currentWord, setCurrentWord] = React.useState( () => getRandomWord().toUpperCase())
-    const [guessedLetters, setGuessedLetters] = React.useState([])
+    const [currentWord, setCurrentWord] = React.useState<string>( (): string => getRandomWord().toUpperCase())
+
+    const [guessedLetters, setGuessedLetters] = React.useState<string[]>([])
 
     let wrongGuessCount = guessedLetters.map(
         letter => currentWord.includes(letter) ? true : false
