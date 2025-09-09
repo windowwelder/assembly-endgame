@@ -14,8 +14,8 @@ import NewGameButton from "./components/NewGameButton";
 
 export default function AssemblyEndgame() {
     // State values
-    const [currentWord, setCurrentWord] = React.useState<string>( (): string => getRandomWord().toUpperCase())
-    const [guessedLetters, setGuessedLetters] = React.useState<string[]>([])
+    const [currentWord, setCurrentWord] = useState<string>( (): string => getRandomWord().toUpperCase())
+    const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
     // Derived values
     const numGuessesLeft:number = languages.length - 1
@@ -26,7 +26,7 @@ export default function AssemblyEndgame() {
     const isGameLost:boolean = wrongGuessCount >= numGuessesLeft
     const isGameOver:boolean = isGameWon || isGameLost
     const lastGuessedLetter:string = guessedLetters[guessedLetters.length - 1]
-    const isLastGuessIncorrect:boolean = lastGuessedLetter && !currentWord.includes(lastGuessedLetter)
+    const isLastGuessIncorrect:boolean = !!lastGuessedLetter && !currentWord.includes(lastGuessedLetter)
 
     // Static values
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -46,51 +46,47 @@ export default function AssemblyEndgame() {
 
     return (
         <main>
-            {isGameWon && 
-            <Confetti 
-                recycle={false}
-                numberOfPieces={1000}
-                width={window.innerWidth}
-                height={document.documentElement.scrollHeight}
-            />}
-            <header>
-                <h1>Assembly: Endgame</h1>
-                <p className="description">Guess the word in under 8 attempts to keep the programming world safe from Assembly!</p>
-            </header>
-            {
-                <section className={gameStatusClass}>
-                    {renderGameStatus()}
-                </section> 
-            }
-            <section className="chips-container">
-                {languagesChips}
-            </section>
-            <section className="word">
-                {word}
-            </section>
+            <ConfettiContainer isGameWon={isGameWon}/>
+            <Header/>
 
-            <section 
-                className="sr-only" 
-                aria-live="polite" 
-                role="status"
-            >
-                <p>
-                    {currentWord.includes(lastGuessedLetter) ? 
-                        `Correct! The letter ${lastGuessedLetter} is in the word.` : 
-                        `Sorry, the letter ${lastGuessedLetter} is not in the word.`
-                    }
-                    You have {numGuessesLeft} attempts left.
-                </p>
-                <p>Current word: {currentWord.split("").map(letter => 
-                guessedLetters.includes(letter) ? letter + "." : "blank.")
-                .join(" ")}</p>
-            
-            </section>
+            <GameStatus
+                isGameWon={isGameWon}
+                isGameLost={isGameLost}
+                isGameOver={isGameOver}
+                isLastGuessIncorrect={isLastGuessIncorrect}
+                wrongGuessCount={wrongGuessCount}
+            />
 
-            <section className="keyboard">
-                {letters}
-            </section>
-            {isGameOver && <button className="new-game" onClick={resetGame}>New Game</button>}
+            <LanguageChips
+                languages={languages}
+                wrongGuessCount={wrongGuessCount}
+            />
+
+            <WordLetters
+                currentWord={currentWord}
+                guessedLetters={guessedLetters}
+                isGameLost={isGameLost}
+            />
+
+            <AriaLiveStatus
+                currentWord={currentWord}
+                lastGuessedLetter={lastGuessedLetter}
+                guessedLetters={guessedLetters}
+                numGuessesLeft={numGuessesLeft}
+            />
+
+            <Keyboard
+                alphabet={alphabet}
+                guessedLetters={guessedLetters}
+                currentWord={currentWord}
+                isGameOver={isGameOver}
+                addGuessedLetter={addGuessedLetter}
+            />
+
+            <NewGameButton
+                isGameOver={isGameOver}
+                startNewGame={startNewGame}
+            />
         </main>
     )
 }
