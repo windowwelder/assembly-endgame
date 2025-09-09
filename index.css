@@ -7,7 +7,8 @@ body {
     font-family: "Hanken Grotesk", Arial, sans-serif;
     background-color: #262626;
     color: #D9D9D9;
-    padding: 0rem;
+    padding: 20px;
+    height: 100vh;
 }
 
 main {
@@ -21,29 +22,28 @@ header {
 }
 
 header > h1 {
-    font-size: 2.35rem;
+    font-size: 1.25rem;
     font-weight: 500;
     color: #F9F4DA;
 }
 
 header > p {
-    font-size: 1.3rem;
-    max-width: 30rem;
+    font-size: 0.875rem;
+    max-width: 350px;
     color: #8E8E8E;
 }
 
-.game-status {
+section.game-status {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #F9F4DA;
     width: 100%;
-    height: 100%;
-    max-width: 30rem;
-    min-height: 5rem;
-    border-radius: 0.35rem;
-    margin-bottom: 2rem;
+    max-width: 350px;
+    min-height: 60px;
+    border-radius: 4px;
+    margin-block: 30px;
 }
 
 section.game-status.won {
@@ -56,45 +56,48 @@ section.game-status.lost {
 
 section.game-status.farewell {
     background-color: #7A5EA7;
-    border: 0.15rem dashed #323232;
-}
-
-section.game-status > h2 {
-    font-size: 1.4rem;
-    margin: 0.4rem
+    border: 1px dashed #323232;
 }
 
 section.game-status > p {
-    margin: 0rem;
-    font-size: 1.0rem;
+    margin: 5px;
 }
 
-.chips-container {
+section.game-status > p.farewell-message {
+    font-style: italic;
+    font-weight: 400;
+}
+
+section.game-status > h2 {
+    font-size: 1.25rem;
+    margin: 5px
+}
+
+section.language-chips {
     display: flex;
-    flex-flow: row wrap;
+    flex-wrap: wrap;
+    gap: 5px;
     justify-content: center;
-    gap: 0.5rem;
-    max-width: 30rem;
-    max-height: 10rem;
-    margin: auto;
+    max-width: 350px;
+    margin-bottom: 36px;
 }
 
 span.chip {
-    border-radius: 0.25rem;
-    padding: 0.8rem;
+    border-radius: 3px;
+    padding: 4.5px;
     position: relative;
-    font-size: 1.2rem;
 }
 
+/* Dimmed overlay with skull on "lost" languages */
 span.chip.lost::before {
-    content: "\1F480";
+    content: "💀";
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    height: 100%;  
+    height: 100%;
     width: 100%;
+    font-size: 0.85rem;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
@@ -103,23 +106,19 @@ span.chip.lost::before {
 section.word {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 2rem;
+    gap: 2px;
+    margin-bottom: 20px;
 }
 
 section.word > span {
-    width: 3.5rem;
-    height: 3.5rem;
+    height: 40px;
+    width: 40px;
+    background-color: #323232;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 0.1rem solid #F9F4DA;
-    background-color: #323232;
-    color: #F9F4DA;
-    font-family: "Hanken Grotesk";
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1.125rem;
+    border-bottom: 1px solid #F9F4DA;
 }
 
 section.word > span.missed-letter {
@@ -127,24 +126,21 @@ section.word > span.missed-letter {
 }
 
 section.keyboard {
-    margin-top: 3rem;
-    max-width: 32rem;
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
     justify-content: center;
-    gap: 12px;
+    max-width: 450px;
+    margin-bottom: 36px;
 }
 
 section.keyboard > button {
-    width: 3rem;
-    height: 3rem;
-    opacity: 65%;
+    height: 35px;
+    width: 35px;
     background-color: #FCBA29;
-    border: 0.1rem solid #D7D7D7;
-    border-radius: 0.3rem;
-    font-family: "Hanken Grotesk", Arial, sans-serif;
-    font-weight: bold;
-    font-size: 1.1rem;
+    border: 1px solid #D7D7D7;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 section.keyboard > button.correct {
@@ -155,18 +151,21 @@ section.keyboard > button.wrong {
     background-color: #EC5D49;
 }
 
+section.keyboard > button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5
+}
+
 button.new-game {
     background-color: #11B5E5;
-    border: 0.15rem solid #D7D7D7;
-    border-radius: 0.1rem;
-    width: 30rem;
-    height: 6rem;
-    padding: 1rem 2rem;
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    width: 225px;
+    height: 40px;
+    padding: 6px 12px;
     display: block;
     margin-inline: auto;
     cursor: pointer;
-    margin-top: 2rem;
-    font-size: 1.4rem;
 }
 
 .sr-only {
