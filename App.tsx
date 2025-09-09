@@ -28,7 +28,7 @@ export default function AssemblyEndgame() {
 
     const { width, height } = useWindowSize()
 
-    function addGuessedLetter(letter) {
+    function addGuessedLetter(letter:string):void {
         setGuessedLetters(prevLetters =>
             prevLetters.includes(letter) ?
                 prevLetters :
