@@ -1,9 +1,15 @@
-import React from "react"
-import { languages } from "./languages"
-import { clsx } from "clsx"
-import { useWindowSize } from 'react-use'
-import { getFarewellText, getRandomWord } from "./utils"
-import Confetti from "react-confetti"
+import {useState} from "react"
+import {languages} from "./languages"
+import {getRandomWord} from "./utils"
+
+import ConfettiContainer from "./components/ConfettiContainer"
+import Header from './components/Header'
+import GameStatus from "./components/GameStatus";
+import LanguageChips from "./components/LanguageChips";
+import WordLetters from "./components/WordLetters";
+import AriaLiveStatus from "./components/AriaLiveStatus";
+import Keyboard from "./components/Keyboard";
+import NewGameButton from "./components/NewGameButton";
 
 
 export default function AssemblyEndgame() {
