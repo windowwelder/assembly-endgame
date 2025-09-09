@@ -1,7 +1,7 @@
 import Confetti from "react-confetti"
 import type {JSX} from 'react'
 
-export default function ConfettiContainer({ isGameWon }): JSX.Element | null {
+export default function ConfettiContainer({ isGameWon }:{isGameWon: boolean}): JSX.Element | null {
     if (!isGameWon) {
         return null
     }
