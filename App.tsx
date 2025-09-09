@@ -13,133 +13,36 @@ import NewGameButton from "./components/NewGameButton";
 
 
 export default function AssemblyEndgame() {
+    // State values
     const [currentWord, setCurrentWord] = React.useState<string>( (): string => getRandomWord().toUpperCase())
-
     const [guessedLetters, setGuessedLetters] = React.useState<string[]>([])
 
-    let wrongGuessCount = guessedLetters.map(
-        letter => currentWord.includes(letter) ? true : false
-        ).filter( el => !el ).length;
+    // Derived values
+    const numGuessesLeft:number = languages.length - 1
+    const wrongGuessCount:number =
+        guessedLetters.filter((letter:string):boolean => !currentWord.includes(letter)).length
+    const isGameWon:boolean =
+        currentWord.split("").every((letter:string):boolean => guessedLetters.includes(letter))
+    const isGameLost:boolean = wrongGuessCount >= numGuessesLeft
+    const isGameOver:boolean = isGameWon || isGameLost
+    const lastGuessedLetter:string = guessedLetters[guessedLetters.length - 1]
+    const isLastGuessIncorrect:boolean = lastGuessedLetter && !currentWord.includes(lastGuessedLetter)
 
-    const isGameWon = currentWord.split("").every(letter => guessedLetters.includes(letter))
-    const isGameLost = wrongGuessCount >= languages.length - 1
-    const isGameOver = isGameWon || isGameLost
-
-    const isWrongGuess = guessedLetters.length > 0 ? !currentWord.includes(guessedLetters[guessedLetters.length - 1]) : false
-
-    const lastGuessedLetter = guessedLetters[guessedLetters.length - 1] || ""
-    const numGuessesLeft = languages.length - 1 - wrongGuessCount
-
+    // Static values
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    const { width, height } = useWindowSize()
-
     function addGuessedLetter(letter:string):void {
-        setGuessedLetters(prevLetters =>
+        setGuessedLetters((prevLetters:string[]):string[] =>
             prevLetters.includes(letter) ?
                 prevLetters :
                 [...prevLetters, letter]
         )
     }
 
-    const languagesChips = languages.map( (el,index) => 
-        {
-            const isLanguageLost = index < wrongGuessCount
-            const classNameLang = clsx("chip", isLanguageLost && "lost"
-    );
-        return (
-                <span
-                    key={index} 
-                    className={classNameLang}  
-                    style={{
-                        backgroundColor: el.backgroundColor,
-                        color: el.color
-                    }}>
-            {el.name}
-                </span>)
-        }
-    )
-
-    const word = currentWord.split("").map((letter, index) => {
-        const shouldRevealLetter = isGameLost || guessedLetters.includes(letter)
-        const classNameLetters = clsx(
-            isGameLost && !guessedLetters.includes(letter) && "missed-letter"
-        )
-        return (
-            <span key={index} className={classNameLetters}>
-                {shouldRevealLetter ? letter.toUpperCase() : ""}
-            </span>
-            )
-        }
-    )
-         
-    const letters = alphabet.toUpperCase().split("").map(letter => {
-        const isGuessed = guessedLetters.includes(letter)
-        const isCorrect = isGuessed && currentWord.includes(letter)
-        const isWrong = isGuessed && !currentWord.includes(letter)
-        const className = clsx({
-            correct: isCorrect,
-            wrong: isWrong
-        })
-        
-        return (
-            <button
-                className={className}
-                key={letter}
-                onClick={() => addGuessedLetter(letter)}
-                disabled={isGameOver}
-                aria-disabled={guessedLetters.includes(letter)}
-                aria-label={`Letter ${letter}`}
-            >
-                {letter.toUpperCase()}
-            </button>
-        )
-    })
-
-    const gameStatusClass = clsx("game-status", {
-        won: isGameWon,
-        lost: isGameLost,
-        farewell: !isGameOver && isWrongGuess
-    })
-
-    function renderGameStatus() {
-        if (!isGameOver && !isWrongGuess) {
-            return (
-                <>
-                    {null}
-                </>
-            )
-        }
-        else if (!isGameOver && isWrongGuess) {
-            return (
-                <>
-                    {getFarewellText(languages[wrongGuessCount - 1].name)}
-                </>
-                )
-        }
-
-        if (isGameWon) {
-            return (
-                <>
-                    <h2>You win!</h2><p>Well done! 🎉</p>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <h2>Game over!</h2>
-                    <p>You lose! Better start learning Assembly 😭</p>
-                </>
-            )
-        }
-    }
-
-    function resetGame() {
-        setCurrentWord(getRandomWord().toUpperCase())
+    function startNewGame():void {
+        setCurrentWord(getRandomWord())
         setGuessedLetters([])
     }
-
-    
 
     return (
         <main>
