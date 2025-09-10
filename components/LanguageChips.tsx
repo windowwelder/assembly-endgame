@@ -8,7 +8,7 @@ type LanguageChipsProps = {
 }
 
 export default function LanguageChips({ languages, wrongGuessCount }: LanguageChipsProps): JSX.Element {
-    const languageElements = languages.map((lang, index) => {
+    const languageElements: JSX.Element[] = languages.map((lang: Language, index: number): JSX.Element => {
         const isLanguageLost: boolean = index < wrongGuessCount
         const styles: Omit<Language, "name"> = {
             backgroundColor: lang.backgroundColor,
